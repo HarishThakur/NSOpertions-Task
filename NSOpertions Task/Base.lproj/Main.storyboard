@@ -2,9 +2,10 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="4ga-di-pWG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--User List-->
         <scene sceneID="TyX-2y-Wbx">
             <objects>
                 <viewController id="Bdw-xg-vsF" customClass="ViewController" sceneMemberID="viewController">
@@ -20,9 +21,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="oB9-Db-T7Z">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="qRZ-ko-F46">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oB9-Db-T7Z" id="WYF-pD-Isq">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qRZ-ko-F46" id="ozj-dY-CFB">
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -32,54 +33,68 @@
                                     <outlet property="delegate" destination="Bdw-xg-vsF" id="teh-Fj-z7Z"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tcj-sD-211">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Load More">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadMoreButton:" destination="Bdw-xg-vsF" eventType="touchUpInside" id="mFY-TV-HO3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="p2b-OT-8Pk" firstAttribute="bottom" secondItem="hSw-ES-Vgi" secondAttribute="top" id="gj9-fX-YaP"/>
-                            <constraint firstItem="p2b-OT-8Pk" firstAttribute="top" secondItem="if3-hh-icC" secondAttribute="bottom" id="o5h-Pz-p1W"/>
-                            <constraint firstItem="p2b-OT-8Pk" firstAttribute="leading" secondItem="qFe-dO-JmO" secondAttribute="leading" id="qHd-m2-tZl"/>
-                            <constraint firstAttribute="trailing" secondItem="p2b-OT-8Pk" secondAttribute="trailing" id="yaQ-iF-UA2"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="Tcj-sD-211" secondAttribute="bottom" constant="5" id="BKf-OD-iey"/>
+                            <constraint firstItem="Tcj-sD-211" firstAttribute="top" secondItem="p2b-OT-8Pk" secondAttribute="bottom" constant="8" symbolic="YES" id="Cmh-6R-SYy"/>
+                            <constraint firstItem="p2b-OT-8Pk" firstAttribute="leading" secondItem="qFe-dO-JmO" secondAttribute="leading" id="K3c-yO-ag6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Tcj-sD-211" secondAttribute="trailing" constant="78" id="VaK-Qd-5hk"/>
+                            <constraint firstItem="p2b-OT-8Pk" firstAttribute="top" secondItem="if3-hh-icC" secondAttribute="bottom" id="ivW-eV-DpL"/>
+                            <constraint firstAttribute="trailing" secondItem="p2b-OT-8Pk" secondAttribute="trailing" id="pK1-ZA-Khb"/>
+                            <constraint firstItem="Tcj-sD-211" firstAttribute="leading" secondItem="qFe-dO-JmO" secondAttribute="leadingMargin" constant="68" id="znC-hR-BIh"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="p2b-OT-8Pk"/>
+                                <exclude reference="Tcj-sD-211"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="gj9-fX-YaP"/>
-                                <exclude reference="o5h-Pz-p1W"/>
-                                <exclude reference="qHd-m2-tZl"/>
-                                <exclude reference="yaQ-iF-UA2"/>
+                                <exclude reference="K3c-yO-ag6"/>
+                                <exclude reference="ivW-eV-DpL"/>
+                                <exclude reference="pK1-ZA-Khb"/>
+                                <exclude reference="BKf-OD-iey"/>
+                                <exclude reference="Cmh-6R-SYy"/>
+                                <exclude reference="VaK-Qd-5hk"/>
+                                <exclude reference="znC-hR-BIh"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="p2b-OT-8Pk"/>
+                                <include reference="Tcj-sD-211"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="gj9-fX-YaP"/>
-                                <include reference="o5h-Pz-p1W"/>
-                                <include reference="qHd-m2-tZl"/>
-                                <include reference="yaQ-iF-UA2"/>
+                                <include reference="K3c-yO-ag6"/>
+                                <include reference="ivW-eV-DpL"/>
+                                <include reference="pK1-ZA-Khb"/>
+                                <include reference="BKf-OD-iey"/>
+                                <include reference="Cmh-6R-SYy"/>
+                                <include reference="VaK-Qd-5hk"/>
+                                <include reference="znC-hR-BIh"/>
                             </mask>
                         </variation>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="DG8-Pv-ZyR">
-                        <barButtonItem key="leftBarButtonItem" title="Previous" id="04Q-xH-ekF"/>
-                        <barButtonItem key="rightBarButtonItem" tag="1" title="Next" id="LFC-bf-qpf">
-                            <connections>
-                                <action selector="buttonPressed:" destination="Bdw-xg-vsF" id="oaM-w3-hYH"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="User List" id="DG8-Pv-ZyR"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="displayUserTableView" destination="p2b-OT-8Pk" id="Z7j-h6-eN1"/>
+                        <outlet property="loadButton" destination="Tcj-sD-211" id="UVV-tb-XT5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QGs-HU-RNI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2500.5" y="378"/>
+            <point key="canvasLocation" x="2422.5" y="378"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="drU-pb-8nD">
