@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomTableViewCell.h"
+#import "DataSourceController.h"
 
 @interface ViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UITableView *displayUserTableView;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageFromUrl;
+
 @end
 

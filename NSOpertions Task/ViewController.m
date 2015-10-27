@@ -14,18 +14,8 @@
     NSMutableArray *mainArray;
     NSMutableArray *subArray;
     NSMutableArray *tempArray;
-    
-    
-    NSMutableDictionary  *d1;
-    NSMutableDictionary  *d2;
-    NSMutableDictionary  *d3;
-    NSMutableDictionary  *d4;
-    NSMutableDictionary  *d5;
-    NSMutableDictionary  *d6;
-    NSMutableDictionary  *d7;
-    NSMutableDictionary  *d8;
-    NSMutableDictionary  *d9;
-    NSMutableDictionary  *d10;
+    UIImage *image;
+    NSMutableArray *imageArray;
 }
 @property NSMutableArray *objects;
 @property (nonatomic, strong) NSOperationQueue *myQueue;
@@ -33,30 +23,21 @@
 
 @implementation ViewController
 
-//- (id)initWithStyle:(UITableViewStyle)style
-//{
-//    self = [super initWithStyle:style];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
-
+/**
+ *  1. Get the loaded image from URL to a mutable array
+ *  2. Initialized NSOperationQueue
+ *  3. Loaded 200 Users in temparray
+ *  4. Added 10 Users in subarray to display in table view
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    d1 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_1.jpg",@"url", nil];
-    d2 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_2.jpg",@"url", nil];
-    d3 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_3.jpg",@"url", nil];
-    d4 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_4.jpg",@"url", nil];
-    d5 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_5.jpg",@"url", nil];
-    d6 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_6.jpg",@"url", nil];
-    d7 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_7.jpg",@"url", nil];
-    d8 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_8.jpg",@"url", nil];
-    d9 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_9.jpg",@"url", nil];
-    d10 = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_10.jpg",@"url", nil];
+    [_displayUserTableView registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"cell"];
+    [_displayUserTableView registerNib:[UINib nibWithNibName:NSStringFromClass([CustomTableViewCell class]) bundle:nil] forCellReuseIdentifier:@"CustomTableViewCell"];
+
+    DataSourceController *data = [[DataSourceController alloc]init];
+    self.objects = data.arrayWithImage;
     
-    self.objects = [NSMutableArray arrayWithObjects:d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,nil];
     self.myQueue = [[NSOperationQueue alloc] init];
     
     tempArray = [[NSMutableArray alloc]init];
@@ -69,20 +50,24 @@
     mainArray = [NSArray arrayWithArray:tempArray];
     _numberOfVisibleRows = 10;
     subArray = [self subArrayForPageNumber: _numberOfVisibleRows];
+    _displayUserTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
+/**
+ *  Getting 10 Users to mainArray
+ *
+ *  @param noOfRows is returning 10 each time
+ *
+ *  @return 10 Users
+ */
 - (NSArray *)subArrayForPageNumber:(NSUInteger)noOfRows{
      NSRange range = NSMakeRange(0, noOfRows);
-    
-    
-//    NSRange range = NSMakeRange(_pageNumber*_numberOfVisibleRows, _numberOfVisibleRows);
-//    if (range.location+range.length>[mainArray count]) {
-//        range.length = [mainArray count]-range.location;
-//    }
     return [mainArray subarrayWithRange:range];
 }
 
-
+/**
+ *  Load 10 more users on button click
+ */
 - (IBAction)loadMoreButton:(id)sender {
     subArray = [self subArrayForPageNumber:_numberOfVisibleRows+10];
     [_displayUserTableView reloadData];
@@ -98,55 +83,93 @@
     // Dispose of any resources that can be recreated.
 }
 
+/**
+ *  Method to get the minimum number of rows to display on table view at rumtime
+ *
+ *  @param theTableView is UITableView
+ *
+ *  @return minimum number of rows to display on table view
+ */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)theTableView
 {
     return 1;
 }
 
-// number of row in the section, I assume there is only 1 row
+/**
+ *  Method to get the maximum number of rows to display on table view at rumtime
+ *
+ *  @param theTableView is UITableView
+ *
+ *  @return maximum number of rows to display on table view
+ */
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section
 {
     return [subArray count];
 }
 
-// the cell will be returned to the tableView
+/**
+ *  Method to return a cell with downloaded image, User Name, time taken to load image and download complete image to the tableView
+ *
+ *  @param theTableView is UITableView
+ *
+ *  @return return a cell with downloaded image, User Name, time taken to load image and download complete image to the tableView
+ */
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [_displayUserTableView dequeueReusableCellWithIdentifier:@"Cell"];
+    CustomTableViewCell *cell = [_displayUserTableView dequeueReusableCellWithIdentifier:@"CustomTableViewCell"];
     
     if ([self.objects count] < [subArray count]) {
-        [self.objects addObject:d1];
-        [self.objects addObject:d2];
-        [self.objects addObject:d3];
-        [self.objects addObject:d4];
-        [self.objects addObject:d5];
-        [self.objects addObject:d6];
-        [self.objects addObject:d7];
-        [self.objects addObject:d8];
-        [self.objects addObject:d9];
-        [self.objects addObject:d10];
+        [self.objects addObjectsFromArray:self.objects];
     }
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    NSDate *today = [NSDate date];
+    NSDate* firstDate = today;
     
     NSDate *object = self.objects[indexPath.row];
 
-    cell.textLabel.text = [subArray objectAtIndex:indexPath.row];
-    
+    cell.labelForUserName.text = [subArray objectAtIndex:indexPath.row];
+
     if([object valueForKey:@"status"]) {
         if([[object valueForKey:@"status"] isEqualToString:@"completed"] && [object valueForKey:@"image"] && [[object valueForKey:@"image"] isKindOfClass:[UIImage class]]) {
-            cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
-            cell.imageView.image = [object valueForKey:@"image"];
+            cell.imageFromUrl.contentMode = UIViewContentModeScaleToFill;
+            cell.imageFromUrl.image = [object valueForKey:@"image"];
+            imageArray = [[NSMutableArray alloc]initWithCapacity:19];
+                       image = [UIImage imageNamed: @"tick1.png"];
+            [cell.imageToCheckImageForUrlLoaded setImage:image];
+            
+            NSDate *today = [NSDate date];
+            NSDate* secondDate = today;
+            NSTimeInterval timeDifference = [secondDate timeIntervalSinceDate:firstDate];
+            NSString *stringForTime = @"Time taken: ";
+            NSString *test = [stringForTime stringByAppendingFormat:@"%f sec",timeDifference];
+            
+            cell.labelToShowTimeToLoadImage.text = test;
+            NSLog(@"%@",test);
+            
+            for (int i = 1; i <= 19; i++) {
+                [imageArray addObject:[UIImage imageNamed:[NSString stringWithFormat:@"tick%d",i]]];
+                cell.imageToCheckImageForUrlLoaded.animationImages = [NSArray arrayWithArray:imageArray];
+                cell.imageToCheckImageForUrlLoaded.animationDuration = 1;
+                cell.imageToCheckImageForUrlLoaded.animationRepeatCount = 1;
+                [cell.imageToCheckImageForUrlLoaded startAnimating];
+                [cell.imageToCheckImageForUrlLoaded setImage:[UIImage imageNamed: @"tick19.png"]];
+            }
         }
     }
     else {
         [object setValue:@"inProgress" forKey:@"status"];
         [self.myQueue addOperationWithBlock:^{
-            UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString: [object valueForKey:@"url"]]]];
+            image = [UIImage imageWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString: [object valueForKey:@"url"]]]];
             [object setValue:image forKey:@"image"];
             [object setValue:@"completed" forKey:@"status"];
             
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                 [_displayUserTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation: UITableViewRowAnimationRight];
             }];
+            
         }];
     }
     return cell;
