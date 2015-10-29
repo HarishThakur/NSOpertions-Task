@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ *  Properties declared for xib elements
+ */
 @interface CustomTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *imageFromUrl;
 @property (weak, nonatomic) IBOutlet UILabel *labelForUserName;

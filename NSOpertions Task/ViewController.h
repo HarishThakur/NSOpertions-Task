@@ -8,13 +8,25 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomTableViewCell.h"
-#import "DataSourceController.h"
+#import "UserInfoController.h"
 
+
+/**
+ *  View:
+ *  Declared properties to load the view
+ */
 @interface ViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *displayUserTableView;
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageFromUrl;
+
+@property UserInfoController *userInfoController;
+
+@property (strong, nonatomic) NSDate *startTime;
+@property (strong, nonatomic) NSDate *endTime;
+
+
 
 @end
 
