@@ -11,40 +11,21 @@
 @interface ViewController () {
     UIImage *image;
 }
-@property NSMutableArray *objects;
-@property NSMutableArray *arrayForUsers;
 @property (nonatomic, strong) NSOperationQueue *myQueue;
 @end
 
 @implementation ViewController
 
 /**
- *  1. Get the number of users from UserInfo class and add it to a mutable array
- *  2. Get the loaded image from UserInfo class and add to a mutable array
+ *  1. Get the number of users from and images in an array
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.myQueue = [[NSOperationQueue alloc] init];
-    _userInfoController = [[UserInfoController alloc]init];
-    self.arrayForUsers = _userInfoController.getUserName;
-    self.objects = _userInfoController.getImageFromUrl;
-    
+    _arrayForUserInformation = [[NSMutableArray alloc]init];
+    [self getUserInformation];
     [_displayUserTableView registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"cell"];
     [_displayUserTableView registerNib:[UINib nibWithNibName:NSStringFromClass([CustomTableViewCell class]) bundle:nil] forCellReuseIdentifier:@"CustomTableViewCell"];
-}
-
-/**
- *  Load 10 more users and Url images on button click
- */
-- (IBAction)loadMoreButton:(id)sender {
-    _userInfoController.getRowCount;
-    
-    [_displayUserTableView reloadData];
-    if([self.objects count] == 200) {
-        _loadButton.enabled = NO;
-        [_loadButton setTitle: @"Load Complete..." forState: UIControlStateNormal];
-    }
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +54,7 @@
  */
 - (NSInteger)tableView:(UITableView *)theTableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.objects count];
+    return [_arrayForUserInformation count];
 }
 
 /**
@@ -85,39 +66,70 @@
  */
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CustomTableViewCell *cell = [_displayUserTableView dequeueReusableCellWithIdentifier:@"CustomTableViewCell"];
-    _startTime = _userInfoController.getCurrentTime;
-    NSDate *object = self.objects[indexPath.row];
-    cell.labelForUserName.text = [_userInfoController.getUserName objectAtIndex:indexPath.row];
-    if([object valueForKey:@"status"]) {
-        if([[object valueForKey:@"status"] isEqualToString:@"completed"] && [object valueForKey:@"image"] && [[object valueForKey:@"image"] isKindOfClass:[UIImage class]]) {
-            cell.imageFromUrl.contentMode = UIViewContentModeScaleToFill;
-            cell.imageFromUrl.image = [object valueForKey:@"image"];
-            [cell.imageToCheckImageForUrlLoaded setImage:[UIImage imageNamed: @"tick19.png"]];
-            
-            _endTime = _userInfoController.getCurrentTime;
-            NSTimeInterval timeDifference = [_endTime timeIntervalSinceDate:_startTime];
-            NSString *stringForTime = @"Time taken: ";
-            NSString *displayTimeDiff = [stringForTime stringByAppendingFormat:@"%f sec",timeDifference];
-            
-            cell.labelToShowTimeToLoadImage.text = displayTimeDiff;
-            NSLog(@"%@",displayTimeDiff);
-        }
-    }
-    else {
-        [object setValue:@"inProgress" forKey:@"status"];
-        [self.myQueue addOperationWithBlock:^{
-            image = [UIImage imageWithData: [NSData dataWithContentsOfURL:[NSURL URLWithString: [object valueForKey:@"url"]]]];
-            [object setValue:image forKey:@"image"];
-            [object setValue:@"completed" forKey:@"status"];
-            
-            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [_displayUserTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation: UITableViewRowAnimationRight];
-            }];
-  
-        }];
-    }
+    _userInfo = [_arrayForUserInformation objectAtIndex:indexPath.row];
+    __weak CustomTableViewCell *cell = [_displayUserTableView dequeueReusableCellWithIdentifier:@"CustomTableViewCell"];
+    
+    cell.labelForUserName.text = _userInfo.userName1;
+    _startTime = [self getCurrentTime];
+     [self.myQueue addOperationWithBlock:^{
+         NSURL *url = [NSURL URLWithString:_userInfo.imageFromUrl1];
+         NSData *data = [NSData dataWithContentsOfURL:url];
+         image = nil;
+         if(data)
+         image = [UIImage imageWithData:data];
+    
+         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+             cell.imageFromUrl.image = image;
+             cell.imageFromUrl.contentMode = UIViewContentModeScaleToFill;
+             cell.imageToCheckImageForUrlLoaded.image = [UIImage imageNamed:@"tick19.png"];
+             _endTime = [self getCurrentTime];
+             NSTimeInterval timeDifference = [_endTime timeIntervalSinceDate:_startTime];
+             NSString *stringForTime = @"Time taken: ";
+             NSString *displayTimeDiff = [stringForTime stringByAppendingFormat:@"%f sec",timeDifference];
+             cell.labelToShowTimeToLoadImage.text = displayTimeDiff;
+             NSLog(@"%@",displayTimeDiff);
+         }];
+         
+    }];
     return cell;
+}
+
+/**
+ *  Method to return 10 User and ImageFromUrl in mutable array
+ *
+ *  @return return 10 User and ImageFromUrl to UserInfo Class in mutable array
+ */
+-(NSMutableArray *) getUserInformation {
+    
+    for (int i = 1; i<=10; i++) {
+        _userInfo = [[UserInfo alloc]init];
+        _userInfo.userName1 = [NSString stringWithFormat:@"User-%d",i];
+        _userInfo.imageFromUrl1 = [NSString stringWithFormat:@"http://www.robots.ox.ac.uk/~vgg/research/flowers_demo/images/flower_%d.jpg",i];
+        [_arrayForUserInformation addObject:_userInfo];
+    }
+    return _arrayForUserInformation;
+}
+
+/**
+ *  Method to return current time
+ *
+ *  @return current time
+ */
+-(NSDate *) getCurrentTime {
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [dateFormatter setDateFormat:@"mm:ss:SS"];
+    NSDate *today = [NSDate date];
+    NSDate* currentTime = today;
+    return currentTime;
+}
+
+/**
+ *  Load 10 more users and Url images on button click
+ */
+- (IBAction)loadMoreButton:(id)sender {
+    [self getUserInformation];
+    [_displayUserTableView reloadData];
 }
 
 @end

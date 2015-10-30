@@ -13,9 +13,7 @@
  */
 @interface UserInfo : NSObject
 
-@property (strong, nonatomic) NSMutableArray *userName;
-@property (strong,nonatomic) NSMutableArray *imageFromUrl;
-@property (strong,nonatomic) NSMutableArray *imageForLoadingStatus;
-@property (strong, nonatomic) NSString *timeTakenToLoadImage;
+@property (strong, nonatomic) NSString *userName1;
+@property (strong,nonatomic) NSString *imageFromUrl1;
 
 @end

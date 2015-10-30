@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7D16CDA61BDF8775009C8769 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D16CDA51BDF8775009C8769 /* UserInfo.m */; };
-		7D16CDA91BDF95F8009C8769 /* UserInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D16CDA81BDF95F8009C8769 /* UserInfoController.m */; };
 		7DA951711BD0D2240054F6AC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA951701BD0D2240054F6AC /* main.m */; };
 		7DA951741BD0D2240054F6AC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA951731BD0D2240054F6AC /* AppDelegate.m */; };
 		7DA951771BD0D2240054F6AC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DA951761BD0D2240054F6AC /* ViewController.m */; };
@@ -52,8 +51,6 @@
 /* Begin PBXFileReference section */
 		7D16CDA41BDF8775009C8769 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = ../UserInfo.h; sourceTree = "<group>"; };
 		7D16CDA51BDF8775009C8769 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = ../UserInfo.m; sourceTree = "<group>"; };
-		7D16CDA71BDF95F8009C8769 /* UserInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfoController.h; path = ../UserInfoController.h; sourceTree = "<group>"; };
-		7D16CDA81BDF95F8009C8769 /* UserInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfoController.m; path = ../UserInfoController.m; sourceTree = "<group>"; };
 		7DA9516B1BD0D2240054F6AC /* NSOpertions Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NSOpertions Task.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DA9516F1BD0D2240054F6AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DA951701BD0D2240054F6AC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -121,8 +118,8 @@
 		7D16CDA01BDF674C009C8769 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				7D16CDA71BDF95F8009C8769 /* UserInfoController.h */,
-				7D16CDA81BDF95F8009C8769 /* UserInfoController.m */,
+				7DA951751BD0D2240054F6AC /* ViewController.h */,
+				7DA951761BD0D2240054F6AC /* ViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -130,8 +127,6 @@
 		7D16CDA11BDF6789009C8769 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7DA951751BD0D2240054F6AC /* ViewController.h */,
-				7DA951761BD0D2240054F6AC /* ViewController.m */,
 				7DBB9F801BDE4B640027B229 /* CustomTableViewCell.h */,
 				7DBB9F811BDE4B640027B229 /* CustomTableViewCell.m */,
 				7DBB9F821BDE4B640027B229 /* CustomTableViewCell.xib */,
@@ -350,7 +345,6 @@
 				7DA951741BD0D2240054F6AC /* AppDelegate.m in Sources */,
 				7DBB9F831BDE4B640027B229 /* CustomTableViewCell.m in Sources */,
 				7DA951711BD0D2240054F6AC /* main.m in Sources */,
-				7D16CDA91BDF95F8009C8769 /* UserInfoController.m in Sources */,
 				7D16CDA61BDF8775009C8769 /* UserInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

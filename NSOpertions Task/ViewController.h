@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CustomTableViewCell.h"
-#import "UserInfoController.h"
+#import "UserInfo.h"
 
 
 /**
@@ -21,12 +21,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *loadButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imageFromUrl;
 
-@property UserInfoController *userInfoController;
-
+@property UserInfo *userInfo;
 @property (strong, nonatomic) NSDate *startTime;
 @property (strong, nonatomic) NSDate *endTime;
-
-
+@property (strong, nonatomic) NSMutableArray *arrayForUserInformation;
+-(NSMutableArray *) getUserInformation;
+-(NSDate *) getCurrentTime;
 
 @end
 
